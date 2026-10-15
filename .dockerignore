@@ -1,0 +1,17 @@
+.venv/
+.git/
+.gitignore
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.vscode/
+.idea/
+.env
+data/audio/output/*.wav
+data/audio/input/*
+data/books/*.pdf
+tools/whisper/whisper-bin-x64/
+tools/whisper/whisper_old/
+*.zip
+*.log

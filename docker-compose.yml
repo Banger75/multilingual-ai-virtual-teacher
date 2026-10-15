@@ -1,0 +1,61 @@
+services:
+  virtual-teacher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: virtual-teacher-app
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - .env
+
+    depends_on:
+      - qdrant
+
+    volumes:
+      - ./data:/app/data
+      - ./tools:/app/tools
+      - ./frontend:/app/frontend
+      - fastembed_cache:/app/.cache/fastembed
+        # Persistent Hugging Face model cache
+      - huggingface_cache:/root/.cache/huggingface
+
+    environment:
+      # NVIDIA_VISIBLE_DEVICES: all
+      # NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      # LD_LIBRARY_PATH: /usr/local/cuda/lib64:/usr/local/cuda/lib
+
+      # Explicit Hugging Face cache location
+      HF_HOME: /root/.cache/huggingface
+      HF_HUB_CACHE: /root/.cache/huggingface/hub
+      FASTEMBED_CACHE_PATH: /app/.cache/fastembed
+
+    # For an NVIDIA GPU host, use docker-compose.gpu.yml as an override.
+
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:latest
+
+    container_name: virtual-teacher-qdrant
+
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+    restart: unless-stopped
+
+
+volumes:
+  qdrant_data:
+  huggingface_cache:
+  fastembed_cache:

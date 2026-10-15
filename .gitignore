@@ -1,0 +1,182 @@
+# =========================================================
+# Subject Specific AI Assistant - Git Ignore
+# =========================================================
+
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# -------------------------
+# Virtual environments
+# -------------------------
+.venv/
+venv/
+env/
+
+# -------------------------
+# Environment / secrets
+# -------------------------
+.env
+.env.*
+!.env.example
+
+# -------------------------
+# IDE
+# -------------------------
+.vscode/
+.idea/
+
+# -------------------------
+# OS
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
+
+# -------------------------
+# AI / ML model files
+# -------------------------
+*.gguf
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# Whisper models
+tools/whisper/models/
+
+# -------------------------
+# Application data
+# -------------------------
+
+# Uploaded/source textbooks
+data/books/*
+!data/books/.gitkeep
+
+# Generated page images and metadata
+data/book_pages/*
+!data/book_pages/.gitkeep
+
+# Audio files
+data/audio/*
+!data/audio/.gitkeep
+
+# Vision-generated images
+data/vision/*
+!data/vision/.gitkeep
+
+# Processed/generated data
+data/processed/*
+!data/processed/.gitkeep
+
+# -------------------------
+# Vector databases / local storage
+# -------------------------
+qdrant_storage/
+chroma/
+*.db
+*.sqlite
+*.sqlite3
+
+# -------------------------
+# Temporary / generated files
+# -------------------------
+tmp/
+temp/
+data/output/
+data/generated/
+
+# -------------------------
+# Node.js
+# -------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+
+# -------------------------
+# Build / distribution
+# -------------------------
+build/
+dist/
+
+# -------------------------
+# Testing / coverage
+# -------------------------
+.coverage
+htmlcov/
+
+# -------------------------
+# Generated / temporary project files
+# -------------------------
+english_pages.json
+.gitignore.save
+test_page.png
+frontend/app_backup.js
+frontend/app_old.js
+frontend/index_backup.html
+# Other virtual environments and caches
+.venv*/
+.uv-cache/
+*.blend1
+*.flac
+*.wav
+*.gguf
+*.glb
+*.gltf
+IndicF5/
+avatar_3d/Hunyuan3D-2/
+
+# Environment variables and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.uv-cache/
+
+# Textbooks and private datasets
+*.pdf
+book_pages/
+qdrant_storage/
+*.db
+*.sqlite
+*.sqlite3
+
+# AI models and generated media
+*.gguf
+*.safetensors
+*.onnx
+*.pt
+*.pth
+*.wav
+*.flac
+*.glb
+*.gltf
+
+# Frontend dependencies
+node_modules/
+dist/
+
+# Local development files
+.vscode/
+.DS_Store

@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Subject Specific Virtual Teacher</title>
+
+    <link
+        rel="stylesheet"
+        href="/frontend/style.css"
+    >
+
+    <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer@4.3.1/dist/model-viewer.min.js"
+    ></script>
+
+
+<style>
+/* ============================================================
+   VIRTUAL TEACHER - CLASSROOM LAYOUT
+   ============================================================ */
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.topbar {
+    min-height: 72px;
+}
+
+.classroom {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: calc(100vh - 72px);
+    height: calc(100vh - 72px);
+    overflow: hidden;
+}
+
+/* Teacher + whiteboard stay together at the top. */
+.teaching-area {
+    order: 1;
+    display: grid;
+    grid-template-columns: minmax(320px, 0.82fr) minmax(520px, 1.6fr);
+    gap: 12px;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0;
+    align-items: stretch;
+}
+
+.teacher-panel,
+.whiteboard-panel {
+    margin-top: 0 !important;
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+.teacher-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.teacher-panel .answer-box {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+.whiteboard-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.whiteboard-panel .visual-board {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto !important;
+    overflow: hidden;
+}
+
+.whiteboard-panel #teachingCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Student question panel stays visible below the teaching area. */
+.question-section {
+    order: 2;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 12px 16px !important;
+    min-height: 0;
+}
+
+.question-section .section-title-row {
+    margin-bottom: 6px;
+}
+
+.question-section .question-input {
+    min-height: 58px;
+    max-height: 82px;
+    resize: vertical;
+}
+
+.question-section .question-actions {
+    margin-top: 6px;
+}
+
+.question-section .recording-status,
+.question-section .recorded-audio-container {
+    max-height: 34px;
+    overflow: hidden;
+}
+
+/* Remove old visible status panel. */
+.status-section {
+    display: none !important;
+}
+
+/* app.js still needs #status, so keep it hidden but present. */
+#status {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Repeat / Slow / Stop / Clear Answer are now inside Teacher Explanation. */
+.teacher-panel .teacher-controls {
+    order: 20;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.classroom > .teacher-controls,
+.classroom > .status-section {
+    display: none !important;
+}
+
+/* Tablet */
+@media (max-width: 1050px) {
+    .classroom {
+        height: auto;
+        min-height: calc(100vh - 72px);
+        overflow: visible;
+    }
+
+    .teaching-area {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .teacher-panel,
+    .whiteboard-panel {
+        height: auto;
+        min-height: 420px;
+    }
+
+    .whiteboard-panel .visual-board {
+        min-height: 420px;
+    }
+
+    .question-section {
+        order: 3;
+    }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .classroom {
+        gap: 10px;
+    }
+
+    .teaching-area {
+        gap: 10px;
+    }
+
+    .teacher-panel,
+    .whiteboard-panel {
+        min-height: 360px;
+    }
+
+    .whiteboard-panel .visual-board {
+        min-height: 320px;
+    }
+
+    .question-section {
+        padding: 10px !important;
+    }
+}
+
+/* ============================================================
+   VIRTUAL TEACHER UI V3
+   Unified teacher workspace + floating avatar
+   ============================================================ */
+
+/* The teaching area is now ONE visual workspace. */
+.classroom .teaching-area {
+    order: 1;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 18px !important;
+    background: var(--panel, #ffffff) !important;
+    border: 1px solid var(--border, #dfe5ee) !important;
+    border-radius: 18px !important;
+    box-shadow: var(--shadow, 0 10px 30px rgba(31,45,61,.08)) !important;
+    overflow: hidden !important;
+}
+
+/* Child panels no longer look like separate panels. */
+.classroom .teacher-panel,
+.classroom .whiteboard-panel {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.classroom .teacher-panel {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+/* Hide the old separate Visual Explanation title. */
+.classroom .whiteboard-panel .panel-heading {
+    display: none !important;
+}
+
+/* Visual board is hidden until a visual explanation is actually needed. */
+.classroom .whiteboard-panel {
+    display: none !important;
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.classroom .whiteboard-panel.visual-workspace-visible {
+    display: flex !important;
+    flex-direction: column !important;
+    margin-top: 14px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.classroom .whiteboard-panel .board-toolbar {
+    flex: 0 0 auto;
+    margin-bottom: 8px;
+}
+
+.classroom .whiteboard-panel .visual-board {
+    flex: 0 0 min(38vh, 360px) !important;
+    min-height: 180px !important;
+    height: min(38vh, 360px) !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+}
+
+.classroom .whiteboard-panel #teachingCanvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+}
+
+/* Teacher answer gets almost the entire screen when no visual is needed. */
+.classroom .teacher-panel .answer-box {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    font-size: clamp(17px, 1.25vw, 22px) !important;
+    line-height: 1.75 !important;
+}
+
+/* Keep response controls compact inside the same teacher workspace. */
+.classroom .teacher-panel .response-mode {
+    flex: 0 0 auto;
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+}
+
+.classroom .teacher-panel .teacher-controls {
+    flex: 0 0 auto;
+    order: 20;
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Student question stays at the bottom. */
+.classroom .question-section {
+    order: 2 !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 10px 14px !important;
+    min-height: 0 !important;
+    border-radius: 16px !important;
+}
+
+.classroom .question-section .section-title-row {
+    margin-bottom: 5px !important;
+}
+
+.classroom .question-section .question-input {
+    min-height: 52px !important;
+    max-height: 78px !important;
+}
+
+.classroom .question-section .question-actions {
+    margin-top: 5px !important;
+}
+
+/* ============================================================
+   FLOATING TEACHER AVATAR
+   ============================================================ */
+
+.classroom .teacher-introduction {
+    position: fixed !important;
+    z-index: 2000 !important;
+    width: min(330px, calc(100vw - 28px)) !important;
+    min-height: 92px !important;
+    padding: 12px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid rgba(49, 94, 251, 0.18) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 18px 50px rgba(20, 30, 60, 0.20) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(18px) scale(.94) !important;
+    transition:
+        opacity .25s ease,
+        visibility .25s ease,
+        transform .25s ease,
+        left .35s ease,
+        right .35s ease,
+        top .35s ease,
+        bottom .35s ease !important;
+}
+
+.classroom .teacher-introduction.avatar-popup-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+}
+
+.classroom .teacher-introduction.avatar-pos-right {
+    right: 24px !important;
+    bottom: 118px !important;
+    left: auto !important;
+    top: auto !important;
+}
+
+.classroom .teacher-introduction.avatar-pos-left {
+    left: 24px !important;
+    bottom: 118px !important;
+    right: auto !important;
+    top: auto !important;
+}
+
+.classroom .teacher-introduction.avatar-pos-top-right {
+    right: 24px !important;
+    top: 92px !important;
+    left: auto !important;
+    bottom: auto !important;
+}
+
+.classroom .teacher-introduction.avatar-pos-center {
+    left: 50% !important;
+    top: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+}
+
+.classroom .teacher-introduction.avatar-popup-visible.avatar-pos-center {
+    transform: translate(-50%, -50%) scale(1) !important;
+}
+
+.classroom .teacher-introduction .teacher-avatar {
+    position: relative !important;
+    flex: 0 0 auto !important;
+    width: 78px !important;
+    height: 78px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    background: linear-gradient(145deg, #eef2ff, #ffffff) !important;
+    box-shadow: 0 10px 24px rgba(49, 94, 251, 0.18) !important;
+}
+
+.classroom .teacher-introduction #teacherAvatar {
+    display: block !important;
+    font-size: 56px !important;
+    line-height: 1 !important;
+    transform-origin: center bottom !important;
+}
+
+.classroom .teacher-introduction .teacher-avatar-image-wrap {
+    width: 72px !important;
+    height: 72px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    border-radius: 50% !important;
+}
+
+.classroom .teacher-introduction .teacher-avatar-image {
+    display: block !important;
+    width: 72px !important;
+    height: 72px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+}
+
+
+/* A subtle speaking animation is ready for the future 3D model too. */
+.classroom .teacher-introduction.avatar-speaking #teacherAvatar {
+    animation: teacherAvatarFloat 1.2s ease-in-out infinite alternate !important;
+}
+
+@keyframes teacherAvatarFloat {
+    from { transform: translateY(0) scale(1); }
+    to   { transform: translateY(-4px) scale(1.03); }
+}
+
+.classroom .teacher-introduction .avatar-emotion {
+    position: absolute !important;
+    right: -2px !important;
+    bottom: -2px !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    background: #fff !important;
+    border-radius: 50% !important;
+    padding: 4px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,.12) !important;
+}
+
+.classroom .teacher-introduction strong {
+    display: block !important;
+    margin-bottom: 3px !important;
+}
+
+.classroom .teacher-introduction p {
+    margin: 0 !important;
+    color: var(--muted, #6b7280) !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+}
+
+/* Hide the old status panel but keep its DOM element for app.js. */
+.classroom .status-section,
+.classroom > .status-section {
+    display: none !important;
+}
+
+#status {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+    .classroom .teacher-introduction.avatar-pos-right,
+    .classroom .teacher-introduction.avatar-pos-left {
+        bottom: 105px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .classroom .teaching-area {
+        padding: 12px !important;
+        border-radius: 14px !important;
+    }
+
+    .classroom .teacher-introduction {
+        width: min(290px, calc(100vw - 20px)) !important;
+        padding: 9px 10px !important;
+    }
+
+    .classroom .teacher-introduction.avatar-pos-right {
+        right: 10px !important;
+        bottom: 105px !important;
+    }
+
+    .classroom .teacher-introduction.avatar-pos-left {
+        left: 10px !important;
+        bottom: 105px !important;
+    }
+
+    /* ============================================================
+   FINAL 2D AVATAR SIZE FIX
+   Use existing Punjabi teacher image only
+   ============================================================ */
+
+.classroom .teacher-introduction .teacher-avatar {
+    width: 180px !important;
+    height: 180px !important;
+}
+
+.classroom .teacher-introduction .teacher-avatar-image-wrap {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+.classroom .teacher-introduction .teacher-avatar-image {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+
+    object-fit: cover !important;
+    object-position: center !important;
+
+    /* THIS is the important part */
+    transform: scale(2.8) !important;
+}
+
+
+    .classroom .teacher-introduction #teacherAvatar {
+        font-size: 44px !important;
+    }
+}
+
+    /* ============================================================
+    2D AVATAR - REMOVE OLD EMOTION OVERLAY
+    ============================================================ */
+
+    .teacher-avatar .avatar-emotion {
+        display: none !important;
+}
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================================= -->
+<!-- HEADER -->
+<!-- ========================================================= -->
+
+<header class="topbar">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <div class="brand-text">
+
+            <h1>
+                Virtual Teacher
+            </h1>
+
+            <p>
+                Your friendly AI learning companion
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ===================================================== -->
+    <!-- LEARNING CONTROLS -->
+    <!-- ===================================================== -->
+
+    <div class="learning-controls">
+
+
+        <!-- CLASS -->
+
+        <div class="control-box">
+
+            <label for="classSelect">
+                🎒 Class
+            </label>
+
+            <select id="classSelect">
+
+                <option value="">
+                    Select class
+                </option>
+
+                <option value="Class 1">
+                    Class 1
+                </option>
+
+                <option value="Class 2">
+                    Class 2
+                </option>
+
+                <option value="Class 3">
+                    Class 3
+                </option>
+
+                <option value="Class 4">
+                    Class 4
+                </option>
+
+                <option value="Class 5">
+                    Class 5
+                </option>
+
+                <option value="Class 6">
+                    Class 6
+                </option>
+
+                <option value="Class 7">
+                    Class 7
+                </option>
+
+                <option value="Class 8">
+                    Class 8
+                </option>
+
+                <option value="Class 9">
+                    Class 9
+                </option>
+
+                <option value="Class 10">
+                    Class 10
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- SUBJECT -->
+
+        <div class="control-box">
+
+            <label for="subjectSelect">
+                📚 Subject
+            </label>
+
+            <select id="subjectSelect">
+
+                <option value="">
+                    Select subject
+                </option>
+
+                <option value="english">
+                    English
+                </option>
+
+                <option value="math">
+                    Mathematics
+                </option>
+
+                <option value="science">
+                    Science
+                </option>
+
+                <option value="punjabi">
+                    Punjabi
+                </option>
+
+                <option value="hindi">
+                    Hindi
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+
+        <!-- LANGUAGE -->
+
+        <div class="control-box">
+            <label for="languageSelect">
+                🌐 Language
+             </label>
+
+            <select id="languageSelect">
+                <option value="auto">
+                    Auto Detect
+                </option>
+
+                <option value="English">
+                    English
+                </option>
+
+                <option value="Hindi">
+                     हिन्दी
+                </option>
+
+                <option value="Punjabi">
+                    ਪੰਜਾਬੀ
+                </option>
+            </select>
+        </div>
+
+        <!-- BOOK -->
+
+        <div class="control-box book-control">
+
+            <label for="bookSelect">
+                📖 Textbook
+            </label>
+
+            <select id="bookSelect">
+
+                <option value="">
+                    Select textbook
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- UPLOAD -->
+
+        <button
+            id="openQuestionPaperButton"
+            class="question-paper-button"
+            type="button"
+        >
+            📝 Question Paper
+        </button>
+
+        <button
+            id="openOralTestButton"
+            class="oral-test-button"
+            type="button"
+        >
+            🎤 Oral Test
+        </button>
+
+        <button
+            id="openUploadButton"
+            class="upload-button"
+            type="button"
+        >
+
+            📤 Upload Book
+
+        </button>
+
+
+    </div>
+
+
+</header>
+
+
+
+<!-- ========================================================= -->
+<!-- MAIN CLASSROOM -->
+<!-- ========================================================= -->
+
+<main class="classroom">
+
+
+    <!-- ===================================================== -->
+    <!-- QUESTION AREA -->
+    <!-- ===================================================== -->
+
+    <section class="question-section">
+
+
+        <div class="section-title-row">
+
+            <div>
+
+                <span class="section-label">
+                    👦 STUDENT
+                </span>
+
+                <h2>
+                    What would you like to learn?
+                </h2>
+
+            </div>
+
+
+            <div
+                id="selectionSummary"
+                class="selection-summary"
+            >
+                Select class, subject and book
+            </div>
+
+        </div>
+
+
+
+        <!-- QUESTION -->
+
+        <textarea
+            id="question"
+            class="question-input"
+            rows="3"
+            placeholder="Type your question here..."
+        ></textarea>
+
+
+
+        <!-- QUESTION BUTTONS -->
+
+        <div class="question-actions">
+
+
+            <button
+                id="recordButton"
+                class="record-button"
+                type="button"
+            >
+                🎤 Speak
+            </button>
+
+            <button
+                id="uploadPageButton"
+                class="upload-page-button"
+                type="button"
+    >
+                📎 Upload Page
+            </button>
+
+            <input
+                id="uploadPageInput"
+                type="file"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
+                hidden
+/>
+            <button
+                id="askButton"
+                class="ask-button"
+                type="button"
+            >
+                ✨ Ask Teacher
+            </button>
+
+
+        </div>
+
+
+        <div
+            id="recordingStatus"
+            class="recording-status"
+        ></div>
+
+
+        <div
+            id="recordedAudioContainer"
+            class="recorded-audio-container"
+        ></div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- TEACHER + WHITEBOARD -->
+    <!-- ===================================================== -->
+
+    <section class="teaching-area">
+
+
+        <!-- ================================================= -->
+        <!-- TEACHER -->
+        <!-- ================================================= -->
+
+        <div class="teacher-panel">
+
+
+            <div class="panel-heading">
+
+
+                <div>
+
+                    <span class="section-label">
+                        👩‍🏫 TEACHER
+                    </span>
+
+                    <h2>
+                        Teacher's Explanation
+                    </h2>
+
+                </div>
+
+
+                <div
+                    id="teacherState"
+                    class="teacher-state"
+                >
+                    🟢 Ready
+                </div>
+
+                <span id="status" aria-hidden="true">Ready</span>
+
+
+            </div>
+
+
+
+            <!-- AVATAR -->
+
+            <div class="teacher-introduction avatar-pos-right avatar-popup-visible" aria-live="polite" aria-label="Virtual teacher">
+
+                <div class="teacher-avatar">
+
+                    <model-viewer
+                        id="teacherAvatar"
+                        class="teacher-3d-viewer"
+                        src="/avatar-3d/teacher_candidate.glb"
+                        poster="/assets/punjabi_teacher_avatar.png"
+                        alt="Interactive 3D Punjabi virtual teacher"
+                        camera-controls
+                        disable-pan
+                        disable-zoom
+                        interaction-prompt="none"
+                        auto-rotate
+                        auto-rotate-delay="1800"
+                        rotation-per-second="12deg"
+                        shadow-intensity="0.7"
+                        camera-orbit="0deg 75deg 105%"
+                        exposure="1.05"
+                    >
+                        <img
+                            src="/assets/punjabi_teacher_avatar.png"
+                            alt="Punjabi Virtual Teacher"
+                            class="teacher-3d-fallback"
+                        />
+                    </model-viewer>
+
+                    <span
+                        id="avatarEmotion"
+                        class="avatar-emotion"
+                    >
+                        😊
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Your Virtual Teacher
+                    </strong>
+
+                    <p id="avatarSpeaking">
+                        Ready to help you learn
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ANSWER -->
+
+            <div
+                id="answer"
+                class="answer-box"
+            >
+
+                <div class="empty-answer">
+
+                    <div class="empty-icon">
+                        💡
+                    </div>
+
+                    <h3>
+                        Ask me something!
+                    </h3>
+
+                    <p>
+                        Your teacher's explanation
+                        will appear here.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AUDIO -->
+
+            <div
+                id="answerAudioContainer"
+                class="answer-audio-container"
+            ></div>
+
+
+
+            <!-- RESPONSE MODE -->
+
+            <div class="response-mode">
+
+
+                <span class="response-mode-title">
+                    Answer:
+                </span>
+
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="responseMode"
+                        value="written"
+                        checked
+                    >
+
+                    📝 Written
+
+                </label>
+
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="responseMode"
+                        value="spoken"
+                    >
+
+                    🔊 Spoken
+
+                </label>
+
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="responseMode"
+                        value="both"
+                    >
+
+                    📝🔊 Both
+
+                </label>
+
+
+            </div>
+
+
+
+
+<section class="teacher-controls">
+
+
+        <button
+            id="repeatAnswerButton"
+            type="button"
+        >
+            🔁 Repeat
+        </button>
+
+
+        <button
+            id="slowSpeechButton"
+            type="button"
+        >
+            🐢 Slow Speech
+        </button>
+
+
+        <button
+            id="stopSpeechButton"
+            type="button"
+        >
+            ⏹ Stop
+        </button>
+
+
+        <button
+            id="clearAnswerButton"
+            type="button"
+        >
+            🧹 Clear Answer
+        </button>
+
+
+    </section>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- WHITEBOARD -->
+        <!-- ================================================= -->
+
+        <div class="whiteboard-panel">
+
+
+            <div class="panel-heading">
+
+
+                <div>
+
+                    <span class="section-label">
+                        🧑‍🏫 TEACHER BOARD
+                    </span>
+
+                    <h2>
+                        Visual Explanation
+                    </h2>
+
+                </div>
+
+
+                <div
+                    id="boardStatus"
+                    class="board-status"
+                >
+                    🟢 Ready
+                </div>
+
+
+            </div>
+
+
+
+            <!-- TOOLBAR -->
+
+            <div class="board-toolbar">
+
+
+                <button
+                    id="boardClearButton"
+                    type="button"
+                >
+                    🧹 Clear
+                </button>
+
+
+                <button
+                    id="boardTextButton"
+                    type="button"
+                >
+                    T Text
+                </button>
+
+
+                <button
+                    id="boardLineButton"
+                    type="button"
+                >
+                    ╱ Line
+                </button>
+
+
+                <button
+                    id="boardCircleButton"
+                    type="button"
+                >
+                    ◯ Circle
+                </button>
+
+
+                <button
+                    id="boardRectangleButton"
+                    type="button"
+                >
+                    ▢ Rectangle
+                </button>
+
+
+            </div>
+
+
+
+            <!-- BOARD -->
+
+            <div
+                id="visualBoard"
+                class="visual-board"
+            >
+
+
+                <canvas
+                    id="teachingCanvas"
+                    width="1400"
+                    height="650"
+                ></canvas>
+
+
+                <div
+                    id="boardPlaceholder"
+                    class="board-placeholder"
+                >
+
+                    <div class="board-placeholder-icon">
+                        📐
+                    </div>
+
+                    <h3>
+                        Teacher's Whiteboard
+                    </h3>
+
+                    <p>
+                        Diagrams, equations, shapes
+                        and visual explanations will
+                        appear here.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+</main>
+
+
+
+<!-- ========================================================= -->
+<!-- BOOK UPLOAD MODAL -->
+<!-- ========================================================= -->
+
+<div
+    id="bookUploadModal"
+    class="modal hidden"
+>
+
+
+    <div class="upload-modal">
+
+
+        <!-- HEADER -->
+
+        <div class="upload-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    📚 TEXTBOOK LIBRARY
+                </span>
+
+                <h2>
+                    Upload a Textbook
+                </h2>
+
+            </div>
+
+
+            <button
+                id="closeUploadModal"
+                class="close-modal-button"
+                type="button"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+
+        <p class="upload-description">
+
+            Select the class and subject first.
+            This keeps textbooks organised so the
+            teacher can retrieve information from
+            the correct book.
+
+        </p>
+
+
+
+        <!-- BOOK NAME -->
+
+        <div class="form-field">
+
+            <label for="bookTitle">
+                📕 Book Name
+            </label>
+
+            <input
+                id="bookTitle"
+                type="text"
+                placeholder="Example: Hindi Pustak Class 5"
+            >
+
+        </div>
+
+
+
+        <!-- CLASS -->
+
+        <div class="form-field">
+
+            <label for="uploadClass">
+                🎒 Class
+            </label>
+
+            <select id="uploadClass">
+
+                <option value="">
+                    Select class
+                </option>
+
+                <option value="Class 1">
+                    Class 1
+                </option>
+
+                <option value="Class 2">
+                    Class 2
+                </option>
+
+                <option value="Class 3">
+                    Class 3
+                </option>
+
+                <option value="Class 4">
+                    Class 4
+                </option>
+
+                <option value="Class 5">
+                    Class 5
+                </option>
+
+                <option value="Class 6">
+                    Class 6
+                </option>
+
+                <option value="Class 7">
+                    Class 7
+                </option>
+
+                <option value="Class 8">
+                    Class 8
+                </option>
+
+                <option value="Class 9">
+                    Class 9
+                </option>
+
+                <option value="Class 10">
+                    Class 10
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- SUBJECT -->
+
+        <div class="form-field">
+
+            <label for="uploadSubject">
+                📚 Subject
+            </label>
+
+            <select id="uploadSubject">
+
+                <option value="">
+                    Select subject
+                </option>
+
+                <option value="english">
+                    English
+                </option>
+
+                <option value="math">
+                    Mathematics
+                </option>
+
+                <option value="science">
+                    Science
+                </option>
+
+                <option value="punjabi">
+                    Punjabi
+                </option>
+
+                <option value="hindi">
+                    Hindi
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- FILE -->
+
+        <div class="form-field">
+
+            <label for="bookFile">
+                📄 Textbook PDF
+            </label>
+
+
+            <div class="file-picker">
+
+
+                <input
+                    id="bookFile"
+                    type="file"
+                    accept=".pdf,application/pdf"
+                >
+
+
+                <label
+                    for="bookFile"
+                    class="file-picker-label"
+                >
+
+                    📎 Choose PDF
+
+                </label>
+
+
+                <span id="selectedFileName">
+                    No file selected
+                </span>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- STATUS -->
+
+        <div
+            id="uploadStatus"
+            class="upload-status"
+        >
+
+            Ready to upload.
+
+        </div>
+
+
+
+        <!-- UPLOAD -->
+
+        <button
+            id="startBookUpload"
+            class="modal-upload-button"
+            type="button"
+        >
+
+            📤 Upload Textbook
+
+        </button>
+
+
+
+        <!-- CLOSE -->
+
+        <button
+            id="uploadDoneButton"
+            class="upload-done-button"
+            type="button"
+        >
+
+            Done
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+
+<!-- ========================================================= -->
+<!-- QUESTION PAPER GENERATOR MODAL -->
+<!-- ========================================================= -->
+
+<div
+    id="questionPaperModal"
+    class="question-paper-modal hidden"
+    aria-hidden="true"
+>
+    <div class="question-paper-dialog">
+
+        <div class="question-paper-header">
+            <div>
+                <span class="section-label">📝 QUESTION PAPER</span>
+                <h2>Generate Question Paper</h2>
+                <p>Create a textbook-grounded paper from one lesson.</p>
+            </div>
+
+            <button
+                id="closeQuestionPaperModal"
+                class="close-modal-button"
+                type="button"
+                aria-label="Close"
+            >✕</button>
+        </div>
+
+        <div class="question-paper-selection">
+            <div class="qp-selection-card">
+                <span>🎒 Class</span>
+                <strong id="qpSelectedClass">—</strong>
+            </div>
+            <div class="qp-selection-card">
+                <span>📚 Subject</span>
+                <strong id="qpSelectedSubject">—</strong>
+            </div>
+            <div class="qp-selection-card">
+                <span>📖 Textbook</span>
+                <strong id="qpSelectedBook">—</strong>
+            </div>
+        </div>
+
+        <div class="question-paper-form">
+
+            <div class="qp-field">
+                <label for="qpLessonNumber">Lesson Number</label>
+                <input
+                    id="qpLessonNumber"
+                    type="number"
+                    min="1"
+                    max="100"
+                    value="1"
+                >
+            </div>
+
+            <div class="qp-field">
+                <label for="qpLanguage">Paper Language</label>
+                <select id="qpLanguage">
+                    <option value="auto">Same as textbook</option>
+                    <option value="English">English</option>
+                    <option value="Hindi">हिन्दी</option>
+                    <option value="Punjabi">ਪੰਜਾਬੀ</option>
+                </select>
+            </div>
+
+            <div class="qp-count-grid">
+                <div class="qp-count-field">
+                    <label for="qpMcqCount">MCQs</label>
+                    <input id="qpMcqCount" type="number" min="0" max="50" value="5">
+                </div>
+
+                <div class="qp-count-field">
+                    <label for="qpFillBlankCount">Fill in the Blanks</label>
+                    <input id="qpFillBlankCount" type="number" min="0" max="50" value="5">
+                </div>
+
+                <div class="qp-count-field">
+                    <label for="qpTrueFalseCount">True / False</label>
+                    <input id="qpTrueFalseCount" type="number" min="0" max="50" value="5">
+                </div>
+
+                <div class="qp-count-field">
+                    <label for="qpShortAnswerCount">Short Answers</label>
+                    <input id="qpShortAnswerCount" type="number" min="0" max="50" value="5">
+                </div>
+            </div>
+
+            <div id="questionPaperStatus" class="question-paper-status">
+                Select a class, subject and textbook, then generate the paper.
+            </div>
+
+            <div class="question-paper-actions">
+                <button
+                    id="generateQuestionPaperButton"
+                    class="generate-question-paper-button"
+                    type="button"
+                >
+                    ✨ Generate Question Paper
+                </button>
+
+                <button
+                    id="closeQuestionPaperButton"
+                    class="secondary-question-paper-button"
+                    type="button"
+                >
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <div
+            id="questionPaperResult"
+            class="question-paper-result hidden"
+        ></div>
+
+        <div
+            id="questionPaperResultActions"
+            class="question-paper-result-actions hidden"
+        >
+            <button id="toggleAnswerKeyButton" type="button">
+                🔑 Show Answer Key
+            </button>
+            <button id="printQuestionPaperButton" type="button">
+                🖨️ Print
+            </button>
+            <button id="newQuestionPaperButton" type="button">
+                🔄 New Paper
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ========================================================= -->
+<!-- ORAL TEST CONFIGURATION -->
+<!-- ========================================================= -->
+
+<div
+    id="oralTestModal"
+    class="oral-test-modal hidden"
+    aria-hidden="true"
+>
+    <div class="oral-test-dialog">
+        <div class="oral-test-header">
+            <div>
+                <span class="section-label">🎤 ORAL TEST</span>
+                <h2>Configure Oral Test</h2>
+                <p>Prepare a textbook-grounded oral assessment for students.</p>
+            </div>
+            <button
+                id="closeOralTestModal"
+                class="close-modal-button"
+                type="button"
+                aria-label="Close"
+            >✕</button>
+        </div>
+
+        <div class="oral-selection-grid">
+            <div class="oral-selection-card"><span>🎒 Class</span><strong id="oralSelectedClass">—</strong></div>
+            <div class="oral-selection-card"><span>📚 Subject</span><strong id="oralSelectedSubject">—</strong></div>
+            <div class="oral-selection-card"><span>📖 Textbook</span><strong id="oralSelectedBook">—</strong></div>
+        </div>
+
+        <div class="oral-form">
+            <div class="oral-form-grid">
+                <div class="oral-field">
+                    <label for="oralLessonNumber">Lesson Number</label>
+                    <input id="oralLessonNumber" type="number" min="1" max="100" value="1">
+                </div>
+                <div class="oral-field">
+                    <label for="oralLanguage">Test Language</label>
+                    <select id="oralLanguage">
+                        <option value="auto">Same as textbook</option>
+                        <option value="English">English</option>
+                        <option value="Hindi">हिन्दी</option>
+                        <option value="Punjabi">ਪੰਜਾਬੀ</option>
+                    </select>
+                </div>
+                <div class="oral-field">
+                    <label for="oralStudentCount">Number of Students</label>
+                    <input id="oralStudentCount" type="number" min="1" max="100" value="18">
+                </div>
+                <div class="oral-field">
+                    <label for="oralQuestionsPerStudent">Questions per Student</label>
+                    <input id="oralQuestionsPerStudent" type="number" min="1" max="20" value="5">
+                </div>
+                <div class="oral-field">
+                    <label for="oralDifficulty">Difficulty</label>
+                    <select id="oralDifficulty">
+                        <option value="mixed">Mixed</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Challenging</option>
+                    </select>
+                </div>
+                <div class="oral-field">
+                    <label for="oralTimeLimit">Time Limit</label>
+                    <select id="oralTimeLimit">
+                        <option value="15">15 seconds</option>
+                        <option value="30">30 seconds</option>
+                        <option value="45" selected>45 seconds</option>
+                        <option value="60">60 seconds</option>
+                        <option value="90">90 seconds</option>
+                        <option value="0">No limit</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="oral-question-types">
+                <div class="oral-subtitle">Question Types</div>
+                <label><input type="checkbox" name="oralQuestionType" value="mcq" checked> MCQ</label>
+                <label><input type="checkbox" name="oralQuestionType" value="fill_blank" checked> Fill in the Blank</label>
+                <label><input type="checkbox" name="oralQuestionType" value="true_false" checked> True / False</label>
+                <label><input type="checkbox" name="oralQuestionType" value="short_answer" checked> Short Answer</label>
+            </div>
+
+            <div id="oralTestStatus" class="oral-test-status">
+                Configure the test, then continue to question-bank preparation.
+            </div>
+
+            <div class="oral-test-actions">
+                <button id="prepareOralTestButton" class="prepare-oral-test-button" type="button">
+                    ✨ Prepare Oral Test
+                </button>
+                <button id="closeOralTestButton" class="secondary-oral-test-button" type="button">
+                    Cancel
+                </button>
+            </div>
+
+            <div id="oralTestPreview" class="oral-test-preview hidden"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========================================================= -->
+<!-- FOOTER -->
+<!-- ========================================================= -->
+
+<footer>
+
+    <strong>
+        🎓 Virtual Teacher
+    </strong>
+
+    <span>
+        •
+    </span>
+
+    <span>
+        Learn • Ask • Understand
+    </span>
+
+</footer>
+
+
+
+<script src="/frontend/app.js"></script>
+
+</body>
+
+</html>

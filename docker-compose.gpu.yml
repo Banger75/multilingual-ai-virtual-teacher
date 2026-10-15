@@ -1,0 +1,3 @@
+services:
+  virtual-teacher:
+    gpus: all

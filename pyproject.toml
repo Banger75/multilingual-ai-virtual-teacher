@@ -1,0 +1,80 @@
+[project]
+name = "virtual-teacher"
+version = "1.0.0"
+description = "Local multilingual subject-specific AI virtual teacher using LangChain, LM Studio, Qdrant, FastEmbed GPU, Whisper and Piper"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+
+dependencies = [
+    "fastapi>=0.115,<1",
+    "uvicorn[standard]>=0.34,<1",
+    "python-multipart>=0.0.20,<1",
+    "pydantic>=2.10,<3",
+    "pydantic-settings>=2.7,<3",
+
+    "langchain>=0.3,<2",
+    "langchain-core>=0.3,<2",
+    "langchain-community>=0.3,<1",
+    "langchain-openai>=0.3,<1",
+    "langchain-text-splitters>=0.3,<2",
+
+    "qdrant-client>=1.12,<2",
+
+    "pymupdf>=1.24,<2",
+    "pypdf>=5,<7",
+
+    "httpx>=0.27,<1",
+    "python-dotenv>=1,<2",
+
+    "faster-whisper>=1.1,<2",
+    "piper-tts>=1.6,<2",
+
+    # Local, open-source Indian-language TTS.  IndicF5 provides the Punjabi
+    # teacher voice; Piper remains the lightweight English/Hindi provider.
+    #"f5-tts",
+    # IndicF5's published model configuration targets Transformers 4.49.
+    #"transformers>=4.49,<4.50",
+
+    "pytesseract",
+    "Pillow",
+
+    # GPU-enabled multilingual embeddings
+    "fastembed>=0.8,<1",
+
+    # Explicit GPU ONNX Runtime
+    "onnxruntime>=1.18,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3,<9",
+    "pytest-asyncio>=0.25,<1",
+    "ruff>=0.9,<1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+# ============================================================
+# UV DEPENDENCY OVERRIDE
+# ============================================================
+#
+# faster-whisper and piper-tts request the CPU package
+# "onnxruntime".
+#
+# Our application uses the GPU-enabled implementation instead.
+#
+# Both distributions expose the same Python module. Exclude the CPU
+# distribution so it cannot overwrite the GPU runtime's files.

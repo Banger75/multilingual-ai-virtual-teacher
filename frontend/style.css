@@ -1,0 +1,3114 @@
+/* ========================================================= */
+/* RESET */
+/* ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+
+    margin: 0;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #eff6ff,
+            #fdf2f8
+        );
+
+    color:
+        #26324a;
+
+    min-height: 100vh;
+}
+
+
+/* ========================================================= */
+/* HEADER */
+/* ========================================================= */
+
+.topbar {
+
+    min-height: 90px;
+
+    padding: 13px 25px;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    border-bottom:
+        1px solid #e2e8f0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 50;
+
+    box-shadow:
+        0 5px 20px rgba(
+            15,
+            23,
+            42,
+            0.06
+        );
+}
+
+
+/* ========================================================= */
+/* BRAND */
+/* ========================================================= */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 260px;
+}
+
+
+.brand-icon {
+
+    width: 54px;
+
+    height: 54px;
+
+    border-radius: 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #ede9fe
+        );
+
+    font-size: 30px;
+
+    box-shadow:
+        0 5px 15px rgba(
+            99,
+            102,
+            241,
+            0.12
+        );
+}
+
+
+.brand h1 {
+
+    margin: 0;
+
+    font-size: 21px;
+
+    color: #24304a;
+}
+
+
+.brand p {
+
+    margin: 3px 0 0;
+
+    font-size: 12px;
+
+    color: #718096;
+}
+
+
+/* ========================================================= */
+/* LEARNING CONTROLS */
+/* ========================================================= */
+
+.learning-controls {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: flex-end;
+
+    gap: 9px;
+
+    flex: 1;
+
+    flex-wrap: nowrap;
+}
+
+
+.control-box {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 135px;
+}
+
+
+.control-box label {
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    color: #64748b;
+
+    letter-spacing: 0.3px;
+}
+
+
+.control-box select {
+
+    height: 39px;
+
+    width: 100%;
+
+    border:
+        2px solid #e2e8f0;
+
+    border-radius: 11px;
+
+    padding: 0 10px;
+
+    background: white;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition:
+        .2s ease;
+}
+
+
+.control-box select:hover {
+
+    border-color:
+        #a5b4fc;
+}
+
+
+.control-box select:focus {
+
+    border-color:
+        #818cf8;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            129,
+            140,
+            248,
+            .15
+        );
+}
+
+
+.book-control {
+
+    min-width: 205px;
+}
+
+
+/* ========================================================= */
+/* UPLOAD BUTTON */
+/* ========================================================= */
+
+.upload-button {
+
+    height: 39px;
+
+    padding: 0 15px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color: white;
+
+    font-weight: 800;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 5px 12px
+        rgba(
+            99,
+            102,
+            241,
+            .20
+        );
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+}
+
+
+.upload-button:hover {
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 7px 16px
+        rgba(
+            99,
+            102,
+            241,
+            .28
+        );
+}
+
+
+/* ========================================================= */
+/* CLASSROOM */
+/* ========================================================= */
+
+.classroom {
+
+    width:
+        min(1550px, 96%);
+
+    margin:
+        20px auto 35px;
+}
+
+
+/* ========================================================= */
+/* QUESTION SECTION */
+/* ========================================================= */
+
+.question-section {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .95
+        );
+
+    border:
+        1px solid #e2e8f0;
+
+    border-radius:
+        20px;
+
+    padding:
+        18px 20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(
+            15,
+            23,
+            42,
+            .06
+        );
+}
+
+
+.section-title-row {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        15px;
+
+    margin-bottom:
+        10px;
+}
+
+
+.section-label {
+
+    display:
+        block;
+
+    font-size:
+        10px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        1.3px;
+
+    color:
+        #7c3aed;
+}
+
+
+.question-section h2 {
+
+    margin:
+        3px 0 0;
+
+    font-size:
+        20px;
+
+    color:
+        #26324a;
+}
+
+
+.selection-summary {
+
+    padding:
+        8px 12px;
+
+    border-radius:
+        10px;
+
+    background:
+        #f5f3ff;
+
+    color:
+        #6d28d9;
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+}
+
+
+/* ========================================================= */
+/* QUESTION INPUT */
+/* ========================================================= */
+
+.question-input {
+
+    width:
+        100%;
+
+    min-height:
+        90px;
+
+    resize:
+        vertical;
+
+    border:
+        2px solid #e2e8f0;
+
+    border-radius:
+        14px;
+
+    padding:
+        13px 15px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        15px;
+
+    color:
+        #26324a;
+
+    background:
+        #fcfdff;
+
+    outline:
+        none;
+
+    transition:
+        .2s ease;
+}
+
+
+.question-input:focus {
+
+    border-color:
+        #818cf8;
+
+    background:
+        white;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(
+            129,
+            140,
+            248,
+            .12
+        );
+}
+
+
+.question-input::placeholder {
+
+    color:
+        #94a3b8;
+}
+
+
+/* ========================================================= */
+/* QUESTION ACTIONS */
+/* ========================================================= */
+
+.question-actions {
+
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    margin-top:
+        10px;
+}
+
+
+.record-button,
+.ask-button {
+
+    height:
+        42px;
+
+    border:
+        0;
+
+    border-radius:
+        11px;
+
+    font-weight:
+        800;
+
+    cursor:
+        pointer;
+
+    transition:
+        .15s ease;
+}
+
+
+.record-button {
+
+    min-width:
+        120px;
+
+    background:
+        #fef3c7;
+
+    color:
+        #92400e;
+}
+
+
+.record-button:hover {
+
+    background:
+        #fde68a;
+}
+
+
+.ask-button {
+
+    flex:
+        1;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color:
+        white;
+
+    box-shadow:
+        0 5px 12px
+        rgba(
+            99,
+            102,
+            241,
+            .18
+        );
+}
+
+
+.ask-button:hover {
+
+    transform:
+        translateY(-1px);
+}
+
+
+.ask-button:disabled {
+
+    opacity:
+        .6;
+
+    cursor:
+        not-allowed;
+}
+
+
+.recording-status {
+
+    min-height:
+        18px;
+
+    margin-top:
+        6px;
+
+    font-size:
+        12px;
+
+    color:
+        #64748b;
+}
+
+
+.recorded-audio-container {
+
+    margin-top:
+        8px;
+}
+
+
+.recorded-audio-container audio {
+
+    width:
+        100%;
+}
+
+
+/* ========================================================= */
+/* TEACHING AREA */
+/* ========================================================= */
+
+.teaching-area {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        minmax(330px, 0.78fr)
+        minmax(650px, 1.7fr);
+
+    gap:
+        18px;
+
+    margin-top:
+        18px;
+}
+
+
+/* ========================================================= */
+/* TEACHER PANEL */
+/* ========================================================= */
+
+.teacher-panel,
+.whiteboard-panel {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .97
+        );
+
+    border:
+        1px solid #e2e8f0;
+
+    border-radius:
+        20px;
+
+    padding:
+        18px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(
+            15,
+            23,
+            42,
+            .06
+        );
+}
+
+
+.teacher-panel {
+
+    min-height:
+        620px;
+}
+
+
+.whiteboard-panel {
+
+    min-height:
+        620px;
+}
+
+
+.panel-heading {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        flex-start;
+
+    gap:
+        10px;
+
+    margin-bottom:
+        12px;
+}
+
+
+.panel-heading h2 {
+
+    margin:
+        4px 0 0;
+
+    font-size:
+        19px;
+
+    color:
+        #26324a;
+}
+
+
+.teacher-state,
+.board-status {
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+
+    white-space:
+        nowrap;
+}
+
+
+/* ========================================================= */
+/* TEACHER INTRODUCTION */
+/* ========================================================= */
+
+.teacher-introduction {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        10px;
+
+    margin-bottom:
+        12px;
+
+    border-radius:
+        14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #faf5ff
+        );
+}
+
+
+.teacher-avatar {
+
+    width:
+        55px;
+
+    height:
+        55px;
+
+    border-radius:
+        50%;
+
+    background:
+        #e0e7ff;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    font-size:
+        32px;
+
+    position:
+        relative;
+}
+
+
+.avatar-emotion {
+
+    position:
+        absolute;
+
+    right:
+        -4px;
+
+    bottom:
+        -3px;
+
+    font-size:
+        15px;
+
+    background:
+        white;
+
+    border-radius:
+        50%;
+
+    padding:
+        2px;
+}
+
+.thinking-answer {
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.thinking-spinner {
+    width: 42px;
+    height: 42px;
+
+    margin: 0 auto 18px;
+
+    border: 4px solid #ddd;
+    border-top-color: #4f46e5;
+
+    border-radius: 50%;
+
+    animation:
+        teacher-spin 0.9s linear infinite;
+}
+
+@keyframes teacher-spin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.teacher-introduction strong {
+
+    font-size:
+        14px;
+}
+
+
+.teacher-introduction p {
+
+    margin:
+        3px 0 0;
+
+    font-size:
+        12px;
+
+    color:
+        #64748b;
+}
+
+
+/* ========================================================= */
+/* ANSWER BOX */
+/* ========================================================= */
+
+.answer-box {
+
+    height:
+        400px;
+
+    overflow-y:
+        auto;
+
+    padding:
+        18px;
+
+    border:
+        2px solid #e2e8f0;
+
+    border-radius:
+        15px;
+
+    background:
+        #fcfdff;
+
+    line-height:
+        1.7;
+
+    font-size:
+        14px;
+
+    white-space:
+        pre-wrap;
+}
+
+
+.empty-answer {
+
+    height:
+        100%;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-align:
+        center;
+
+    color:
+        #64748b;
+}
+
+
+.empty-icon {
+
+    font-size:
+        42px;
+}
+
+
+.empty-answer h3 {
+
+    margin:
+        8px 0 4px;
+
+    color:
+        #475569;
+}
+
+
+.empty-answer p {
+
+    margin:
+        0;
+
+    font-size:
+        12px;
+}
+
+
+/* ========================================================= */
+/* AUDIO */
+/* ========================================================= */
+
+.answer-audio-container {
+
+    margin-top:
+        10px;
+}
+
+
+.answer-audio-container audio {
+
+    width:
+        100%;
+}
+
+
+/* ========================================================= */
+/* RESPONSE MODE */
+/* ========================================================= */
+
+.response-mode {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    flex-wrap:
+        wrap;
+
+    margin-top:
+        12px;
+
+    padding:
+        9px 11px;
+
+    border-radius:
+        11px;
+
+    background:
+        #f8fafc;
+
+    font-size:
+        12px;
+}
+
+
+.response-mode-title {
+
+    font-weight:
+        800;
+
+    color:
+        #475569;
+}
+
+
+.response-mode label {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        4px;
+
+    cursor:
+        pointer;
+}
+
+
+.response-mode input {
+
+    accent-color:
+        #6366f1;
+}
+
+
+/* ========================================================= */
+/* WHITEBOARD TOOLBAR */
+/* ========================================================= */
+
+.board-toolbar {
+
+    display:
+        flex;
+
+    gap:
+        7px;
+
+    flex-wrap:
+        wrap;
+
+    margin:
+        10px 0;
+}
+
+
+.board-toolbar button {
+
+    border:
+        1px solid #dbe2ea;
+
+    background:
+        #ffffff;
+
+    border-radius:
+        9px;
+
+    padding:
+        7px 10px;
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+    color:
+        #475569;
+
+    cursor:
+        pointer;
+}
+
+
+.board-toolbar button:hover {
+
+    background:
+        #eef2ff;
+
+    border-color:
+        #a5b4fc;
+
+    color:
+        #4338ca;
+}
+
+
+/* ========================================================= */
+/* VISUAL BOARD */
+/* ========================================================= */
+
+.visual-board {
+
+    position:
+        relative;
+
+    height:
+        500px;
+
+    overflow:
+        hidden;
+
+    border:
+        2px solid #dbe2ea;
+
+    border-radius:
+        15px;
+
+    background:
+        #ffffff;
+}
+
+
+#teachingCanvas {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+}
+
+
+.board-placeholder {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    text-align:
+        center;
+
+    pointer-events:
+        none;
+
+    color:
+        #94a3b8;
+}
+
+
+.board-placeholder.hidden {
+
+    display:
+        none;
+}
+
+
+.board-placeholder-icon {
+
+    font-size:
+        58px;
+}
+
+
+.board-placeholder h3 {
+
+    margin:
+        8px 0 4px;
+
+    color:
+        #64748b;
+}
+
+
+.board-placeholder p {
+
+    max-width:
+        430px;
+
+    margin:
+        0;
+
+    font-size:
+        13px;
+}
+
+
+/* ========================================================= */
+/* STATUS SECTION */
+/* ========================================================= */
+
+.status-section {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        20px;
+
+    margin-top:
+        14px;
+
+    padding:
+        11px 15px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .95
+        );
+
+    border:
+        1px solid #e2e8f0;
+
+    border-radius:
+        13px;
+
+    font-size:
+        11px;
+}
+
+
+.status-section div {
+
+    display:
+        flex;
+
+    gap:
+        5px;
+}
+
+
+.status-section span {
+
+    color:
+        #64748b;
+}
+
+
+.status-section strong {
+
+    color:
+        #334155;
+}
+
+
+/* ========================================================= */
+/* TEACHER CONTROLS */
+/* ========================================================= */
+
+.teacher-controls {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    margin-top:
+        13px;
+
+    flex-wrap:
+        wrap;
+}
+
+
+.teacher-controls button {
+
+    border:
+        1px solid #dbe2ea;
+
+    background:
+        white;
+
+    border-radius:
+        10px;
+
+    padding:
+        8px 12px;
+
+    color:
+        #475569;
+
+    font-weight:
+        700;
+
+    font-size:
+        11px;
+
+    cursor:
+        pointer;
+}
+
+
+.teacher-controls button:hover {
+
+    background:
+        #f5f3ff;
+
+    border-color:
+        #c4b5fd;
+}
+
+
+/* ========================================================= */
+/* MODAL */
+/* ========================================================= */
+
+.modal {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        1000;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        20px;
+
+    background:
+        rgba(
+            30,
+            41,
+            59,
+            .55
+        );
+
+    backdrop-filter:
+        blur(5px);
+}
+
+
+.modal.hidden {
+
+    display:
+        none;
+}
+
+
+.upload-modal {
+
+    width:
+        min(500px, 96%);
+
+    max-height:
+        92vh;
+
+    overflow-y:
+        auto;
+
+    padding:
+        23px;
+
+    border-radius:
+        22px;
+
+    background:
+        white;
+
+    box-shadow:
+        0 25px 70px
+        rgba(
+            15,
+            23,
+            42,
+            .25
+        );
+}
+
+
+.upload-modal-header {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        flex-start;
+
+    gap:
+        15px;
+
+    margin-bottom:
+        8px;
+}
+
+
+.upload-modal-header h2 {
+
+    margin:
+        4px 0 0;
+
+    font-size:
+        21px;
+
+    color:
+        #26324a;
+}
+
+
+.close-modal-button {
+
+    width:
+        34px;
+
+    height:
+        34px;
+
+    border:
+        0;
+
+    border-radius:
+        9px;
+
+    background:
+        #f1f5f9;
+
+    color:
+        #475569;
+
+    cursor:
+        pointer;
+
+    font-weight:
+        800;
+}
+
+
+.upload-description {
+
+    margin:
+        0 0 15px;
+
+    padding:
+        10px;
+
+    border-radius:
+        10px;
+
+    background:
+        #f5f3ff;
+
+    color:
+        #6d28d9;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
+}
+
+
+/* ========================================================= */
+/* FORM */
+/* ========================================================= */
+
+.form-field {
+
+    margin-top:
+        12px;
+}
+
+
+.form-field label {
+
+    display:
+        block;
+
+    margin-bottom:
+        5px;
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+    color:
+        #475569;
+}
+
+
+.form-field input[type="text"],
+.form-field select {
+
+    width:
+        100%;
+
+    height:
+        40px;
+
+    padding:
+        0 11px;
+
+    border:
+        2px solid #e2e8f0;
+
+    border-radius:
+        10px;
+
+    outline:
+        none;
+
+    font-family:
+        inherit;
+
+    color:
+        #334155;
+
+    background:
+        #fcfdff;
+}
+
+
+.form-field input[type="text"]:focus,
+.form-field select:focus {
+
+    border-color:
+        #818cf8;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            129,
+            140,
+            248,
+            .12
+        );
+}
+
+
+/* ========================================================= */
+/* FILE PICKER */
+/* ========================================================= */
+
+.file-picker {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        7px;
+
+    border:
+        2px dashed #cbd5e1;
+
+    border-radius:
+        11px;
+
+    background:
+        #f8fafc;
+}
+
+
+#bookFile {
+
+    display:
+        none;
+}
+
+
+.file-picker-label {
+
+    padding:
+        8px 11px;
+
+    border-radius:
+        8px;
+
+    background:
+        #eef2ff;
+
+    color:
+        #4338ca;
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+
+    cursor:
+        pointer;
+
+    white-space:
+        nowrap;
+}
+
+
+#selectedFileName {
+
+    min-width:
+        0;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+
+    font-size:
+        11px;
+
+    color:
+        #64748b;
+}
+
+
+/* ========================================================= */
+/* UPLOAD STATUS */
+/* ========================================================= */
+
+.upload-status {
+
+    min-height:
+        48px;
+
+    margin-top:
+        13px;
+
+    padding:
+        10px 12px;
+
+    border-radius:
+        10px;
+
+    background:
+        #f8fafc;
+
+    color:
+        #64748b;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
+}
+
+
+.upload-status.success {
+
+    background:
+        #ecfdf5;
+
+    color:
+        #047857;
+
+    border:
+        1px solid #a7f3d0;
+}
+
+
+.upload-status.error {
+
+    background:
+        #fef2f2;
+
+    color:
+        #b91c1c;
+
+    border:
+        1px solid #fecaca;
+}
+
+
+.upload-status.loading {
+
+    background:
+        #eff6ff;
+
+    color:
+        #1d4ed8;
+
+    border:
+        1px solid #bfdbfe;
+}
+
+
+/* ========================================================= */
+/* MODAL BUTTONS */
+/* ========================================================= */
+
+.modal-upload-button {
+
+    width:
+        100%;
+
+    height:
+        43px;
+
+    margin-top:
+        12px;
+
+    border:
+        0;
+
+    border-radius:
+        11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color:
+        white;
+
+    font-size:
+        13px;
+
+    font-weight:
+        800;
+
+    cursor:
+        pointer;
+}
+
+
+.modal-upload-button:disabled {
+
+    opacity:
+        .6;
+
+    cursor:
+        not-allowed;
+}
+
+
+.upload-done-button {
+
+    width:
+        100%;
+
+    height:
+        38px;
+
+    margin-top:
+        8px;
+
+    border:
+        1px solid #dbe2ea;
+
+    border-radius:
+        10px;
+
+    background:
+        white;
+
+    color:
+        #475569;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+}
+
+
+/* ========================================================= */
+/* FOOTER */
+/* ========================================================= */
+
+footer {
+
+    padding:
+        18px;
+
+    text-align:
+        center;
+
+    color:
+        #64748b;
+
+    font-size:
+        12px;
+}
+
+
+footer span {
+
+    margin:
+        0 5px;
+}
+
+
+/* ========================================================= */
+/* RESPONSIVE */
+/* ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .topbar {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+    }
+
+
+    .learning-controls {
+
+        width:
+            100%;
+
+        justify-content:
+            flex-start;
+
+        overflow-x:
+            auto;
+
+        padding-bottom:
+            3px;
+    }
+
+
+    .teaching-area {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .whiteboard-panel {
+
+        min-height:
+            600px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .classroom {
+
+        width:
+            94%;
+
+        margin-top:
+            12px;
+    }
+
+
+    .brand {
+
+        min-width:
+            0;
+    }
+
+
+    .learning-controls {
+
+        flex-wrap:
+            wrap;
+    }
+
+
+    .control-box,
+    .book-control {
+
+        flex:
+            1;
+
+        min-width:
+            130px;
+    }
+
+
+    .upload-button {
+
+        flex:
+            1;
+
+        min-width:
+            130px;
+    }
+
+
+    .section-title-row {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .selection-summary {
+
+        width:
+            100%;
+    }
+
+
+    .question-actions {
+
+        flex-direction:
+            column;
+    }
+
+
+    .record-button {
+
+        width:
+            100%;
+    }
+
+
+    .visual-board {
+
+        height:
+            420px;
+    }
+
+
+    .answer-box {
+
+        height:
+            330px;
+    }
+
+
+    .status-section {
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            7px;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .topbar {
+
+        padding:
+            10px 12px;
+    }
+
+
+    .learning-controls {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+    }
+
+
+    .control-box,
+    .book-control,
+    .upload-button {
+
+        width:
+            100%;
+    }
+
+
+    .upload-modal {
+
+        padding:
+            17px;
+    }
+
+
+    .file-picker {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .file-picker-label {
+
+        width:
+            100%;
+
+        text-align:
+            center;
+    }
+
+}
+/* =========================================================
+   DEPLOYMENT LAYOUT: TEACHER 35% / WHITEBOARD 65%
+   Student panel is always below the teaching area.
+   ========================================================= */
+.classroom {
+    display: flex;
+    flex-direction: column;
+    width: min(1500px, 96vw);
+    margin: 18px auto 0;
+    gap: 16px;
+}
+
+.teaching-area {
+    order: 1;
+    display: grid !important;
+    grid-template-columns: 35fr 65fr !important;
+    gap: 16px;
+    min-width: 0;
+}
+
+.teacher-panel,
+.whiteboard-panel {
+    min-width: 0;
+}
+
+.question-section {
+    order: 2;
+}
+
+.status-section,
+.teacher-controls {
+    width: min(1500px, 96vw);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.visual-board {
+    min-height: 650px;
+}
+
+.answer-box {
+    min-height: 330px;
+}
+
+@media (max-width: 900px) {
+    .teaching-area {
+        grid-template-columns: 1fr !important;
+    }
+    .teacher-panel { order: 1; }
+    .whiteboard-panel { order: 2; }
+    .question-section { order: 2; }
+    .visual-board { min-height: 480px; }
+}
+
+@media (max-width: 600px) {
+    .classroom,
+    .status-section,
+    .teacher-controls {
+        width: 94vw;
+    }
+    .visual-board { min-height: 360px; }
+    .answer-box { min-height: 240px; }
+}
+/* ============================================================
+   RESPONSIVE VIRTUAL TEACHER
+   Mobile + Tablet + Small Laptop
+   ============================================================ */
+
+
+/* ============================================================
+   GLOBAL RESPONSIVE FIXES
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+img,
+video,
+canvas {
+    max-width: 100%;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.topbar {
+    width: 100%;
+    max-width: 100%;
+}
+
+.learning-controls {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/* ============================================================
+   SELECTS AND INPUTS
+   ============================================================ */
+
+select,
+input,
+textarea,
+button {
+    max-width: 100%;
+}
+
+select {
+    min-width: 0;
+}
+
+.question-input {
+    width: 100%;
+    max-width: 100%;
+    resize: vertical;
+}
+
+
+/* ============================================================
+   TEACHING AREA
+   ============================================================ */
+
+.teaching-area {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/* ============================================================
+   ANSWER BOX
+   ============================================================ */
+
+.answer-box {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.answer-box p,
+.answer-box h1,
+.answer-box h2,
+.answer-box h3,
+.answer-box h4 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   WHITEBOARD
+   ============================================================ */
+
+.whiteboard-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.visual-board {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.visual-board canvas {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* ============================================================
+   STATUS
+   ============================================================ */
+
+.status-section {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/* ============================================================
+   LARGE TABLETS
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .learning-controls {
+        flex-wrap: wrap;
+    }
+
+    .control-box {
+        min-width: 150px;
+        flex: 1 1 180px;
+    }
+
+    .book-control {
+        flex: 1 1 250px;
+    }
+
+    .teaching-area {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-panel,
+    .whiteboard-panel {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .status-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* ============================================================
+   TABLETS
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    body {
+        font-size: 15px;
+    }
+
+
+    /* --------------------------------------------------------
+       HEADER
+       -------------------------------------------------------- */
+
+    .topbar {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .brand {
+        width: 100%;
+    }
+
+    .brand-text h1 {
+        font-size: 1.35rem;
+    }
+
+    .brand-text p {
+        font-size: 0.85rem;
+    }
+
+
+    /* --------------------------------------------------------
+       LEARNING CONTROLS
+       -------------------------------------------------------- */
+
+    .learning-controls {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+    }
+
+    .control-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .control-box select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .book-control {
+        grid-column: 1 / -1;
+    }
+
+    .upload-button {
+        width: 100%;
+    }
+
+
+    /* --------------------------------------------------------
+       CLASSROOM
+       -------------------------------------------------------- */
+
+    .classroom {
+        width: 100%;
+        max-width: 100%;
+    }
+
+
+    /* --------------------------------------------------------
+       QUESTION SECTION
+       -------------------------------------------------------- */
+
+    .section-title-row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .selection-summary {
+        width: 100%;
+    }
+
+    .question-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .question-actions button {
+        width: 100%;
+    }
+
+
+    /* --------------------------------------------------------
+       TEACHING AREA
+       -------------------------------------------------------- */
+
+    .teaching-area {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .teacher-panel,
+    .whiteboard-panel {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    /* --------------------------------------------------------
+       PANEL HEADINGS
+       -------------------------------------------------------- */
+
+    .panel-heading {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .panel-heading > div:first-child {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .teacher-state,
+    .board-status {
+        flex: 0 0 auto;
+    }
+
+
+    /* --------------------------------------------------------
+       ANSWER
+       -------------------------------------------------------- */
+
+    .answer-box {
+        min-height: 220px;
+        max-height: none;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+
+    /* --------------------------------------------------------
+       RESPONSE MODE
+       -------------------------------------------------------- */
+
+    .response-mode {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .response-mode label {
+        white-space: normal;
+    }
+
+
+    /* --------------------------------------------------------
+       WHITEBOARD TOOLBAR
+       -------------------------------------------------------- */
+
+    .board-toolbar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .board-toolbar button {
+        width: 100%;
+    }
+
+
+    /* --------------------------------------------------------
+       WHITEBOARD
+       -------------------------------------------------------- */
+
+    .visual-board {
+        min-height: 300px;
+    }
+
+    .visual-board canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+
+    /* --------------------------------------------------------
+       STATUS
+       -------------------------------------------------------- */
+
+    .status-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+
+    /* --------------------------------------------------------
+       TEACHER CONTROLS
+       -------------------------------------------------------- */
+
+    .teacher-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .teacher-controls button {
+        width: 100%;
+    }
+
+
+    /* --------------------------------------------------------
+       BOOK MODAL
+       -------------------------------------------------------- */
+
+    .modal {
+        padding: 12px;
+    }
+
+    .upload-modal {
+        width: 100%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    body {
+        font-size: 14px;
+    }
+
+
+    /* --------------------------------------------------------
+       HEADER
+       -------------------------------------------------------- */
+
+    .topbar {
+        padding: 12px;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .brand-icon {
+        flex: 0 0 auto;
+    }
+
+    .brand-text h1 {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .brand-text p {
+        font-size: 0.78rem;
+        margin: 2px 0 0;
+    }
+
+
+    /* --------------------------------------------------------
+       CONTROLS
+       -------------------------------------------------------- */
+
+    .learning-controls {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .control-box {
+        width: 100%;
+    }
+
+    .control-box label {
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .control-box select {
+        width: 100%;
+        height: 42px;
+    }
+
+    .upload-button {
+        width: 100%;
+        min-height: 42px;
+    }
+
+
+    /* --------------------------------------------------------
+       CLASSROOM
+       -------------------------------------------------------- */
+
+    .classroom {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    /* --------------------------------------------------------
+       QUESTION
+       -------------------------------------------------------- */
+
+    .question-section {
+        width: 100%;
+    }
+
+    .question-section h2 {
+        font-size: 1.15rem;
+    }
+
+    .question-input {
+        min-height: 110px;
+        font-size: 15px;
+    }
+
+    .question-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .question-actions button {
+        width: 100%;
+        min-height: 44px;
+    }
+
+
+    /* --------------------------------------------------------
+       TEACHER PANEL
+       -------------------------------------------------------- */
+
+    .teacher-panel,
+    .whiteboard-panel {
+        border-radius: 14px;
+        width: 100%;
+    }
+
+    .panel-heading {
+        align-items: flex-start;
+    }
+
+    .panel-heading h2 {
+        font-size: 1.1rem;
+    }
+
+    .teacher-state,
+    .board-status {
+        font-size: 0.8rem;
+    }
+
+
+    /* --------------------------------------------------------
+       TEACHER INTRODUCTION
+       -------------------------------------------------------- */
+
+    .teacher-introduction {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .teacher-avatar {
+        flex: 0 0 auto;
+    }
+
+
+    /* --------------------------------------------------------
+       ANSWER BOX
+       -------------------------------------------------------- */
+
+    .answer-box {
+        width: 100%;
+        min-height: 200px;
+        padding: 14px;
+        font-size: 15px;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* --------------------------------------------------------
+       RESPONSE MODE
+       -------------------------------------------------------- */
+
+    .response-mode {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .response-mode-title {
+        display: block;
+        margin-bottom: 2px;
+    }
+
+
+    /* --------------------------------------------------------
+       WHITEBOARD
+       -------------------------------------------------------- */
+
+    .board-toolbar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .board-toolbar button {
+        min-height: 40px;
+        font-size: 13px;
+    }
+
+    .visual-board {
+        width: 100%;
+        min-height: 230px;
+    }
+
+    .visual-board canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .board-placeholder {
+        padding: 20px 10px;
+    }
+
+    .board-placeholder h3 {
+        font-size: 1rem;
+    }
+
+    .board-placeholder p {
+        font-size: 0.82rem;
+    }
+
+
+    /* --------------------------------------------------------
+       STATUS
+       -------------------------------------------------------- */
+
+    .status-section {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .status-section > div {
+        width: 100%;
+    }
+
+
+    /* --------------------------------------------------------
+       TEACHER CONTROLS
+       -------------------------------------------------------- */
+
+    .teacher-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .teacher-controls button {
+        width: 100%;
+        min-height: 42px;
+        font-size: 13px;
+    }
+
+
+    /* --------------------------------------------------------
+       FOOTER
+       -------------------------------------------------------- */
+
+    footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+        text-align: center;
+        padding: 15px 10px;
+    }
+
+
+    /* --------------------------------------------------------
+       BOOK UPLOAD
+       -------------------------------------------------------- */
+
+    .modal {
+        padding: 8px;
+    }
+
+    .upload-modal {
+        width: 100%;
+        max-width: none;
+        max-height: 94vh;
+        overflow-y: auto;
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .upload-modal-header {
+        gap: 8px;
+    }
+
+    .upload-modal-header h2 {
+        font-size: 1.15rem;
+    }
+
+    .form-field {
+        width: 100%;
+    }
+
+    .form-field input,
+    .form-field select {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .file-picker {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .file-picker-label {
+        max-width: 100%;
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL PHONES
+   ============================================================ */
+
+@media (max-width: 380px) {
+
+    .classroom {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    .topbar {
+        padding: 9px;
+    }
+
+    .question-section h2,
+    .panel-heading h2 {
+        font-size: 1rem;
+    }
+
+    .teacher-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .board-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .status-section {
+        font-size: 13px;
+    }
+
+}
+    /* ============================================================
+   TEMPORARY 2D VIRTUAL TEACHER AVATAR
+   ============================================================ */
+
+.teacher-avatar {
+    position: relative !important;
+
+    width: 190px !important;
+    height: 230px !important;
+
+    min-width: 190px !important;
+    min-height: 230px !important;
+
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+
+    overflow: visible !important;
+
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+
+    flex-shrink: 0 !important;
+}
+
+.teacher-avatar-image-wrap {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    overflow: hidden !important;
+
+    background: transparent !important;
+
+    line-height: 0 !important;
+}
+
+.teacher-avatar-image {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center bottom !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+    outline: none !important;
+
+    background: transparent !important;
+
+    user-select: none !important;
+    pointer-events: none !important;
+}
+
+/* Keep the emotion indicator visible */
+.teacher-avatar .avatar-emotion {
+    position: absolute !important;
+
+    right: 2px !important;
+    top: 4px !important;
+
+    z-index: 5 !important;
+}
+
+/* Smaller screens */
+@media (max-width: 700px) {
+
+    .teacher-avatar {
+        width: 140px !important;
+        height: 175px !important;
+
+        min-width: 140px !important;
+        min-height: 175px !important;
+    }
+
+}
+
+/* ============================================================
+   3D PUNJABI TEACHER AVATAR
+   ============================================================ */
+
+/* The GLB is served locally. The poster image is shown while WebGL loads. */
+.teacher-3d-viewer {
+    display: block;
+    width: min(100%, 270px);
+    height: 330px;
+    border-radius: 18px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 0.96), rgba(221, 239, 255, 0.84) 46%, rgba(190, 218, 238, 0.94));
+    --poster-color: transparent;
+}
+
+.teacher-3d-fallback {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.teacher-introduction.avatar-speaking .teacher-3d-viewer {
+    animation: teacher3dSpeaking 0.85s ease-in-out infinite alternate;
+}
+
+@keyframes teacher3dSpeaking {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(-5px) scale(1.015); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .teacher-3d-viewer,
+    .teacher-introduction.avatar-speaking .teacher-3d-viewer {
+        animation: none;
+    }
+}
+
+.teacher-avatar {
+    position: relative !important;
+
+    width: 220px !important;
+    height: 250px !important;
+
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+
+    overflow: visible !important;
+
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    flex-shrink: 0 !important;
+}
+
+.teacher-avatar-image-wrap {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    background: transparent !important;
+
+    line-height: 0 !important;
+}
+
+.teacher-avatar-image {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center bottom !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: transparent !important;
+    border: none !important;
+
+    pointer-events: none !important;
+    user-select: none !important;
+}
+
+.teacher-avatar .avatar-emotion {
+    position: absolute !important;
+
+    right: 0 !important;
+    top: 5px !important;
+
+    z-index: 10 !important;
+}
+
+
+/* ============================================================
+   FINAL 2D AVATAR SIZE OVERRIDE
+   ============================================================ */
+
+.classroom .teacher-introduction .teacher-avatar {
+    width: 220px !important;
+    height: 250px !important;
+    min-width: 220px !important;
+    min-height: 250px !important;
+    max-width: 220px !important;
+    max-height: 250px !important;
+    flex: 0 0 220px !important;
+}
+
+.classroom .teacher-introduction .teacher-avatar-image-wrap {
+    width: 220px !important;
+    height: 250px !important;
+    min-width: 220px !important;
+    min-height: 250px !important;
+    max-width: 220px !important;
+    max-height: 250px !important;
+    display: block !important;
+}
+
+.classroom .teacher-introduction .teacher-avatar-image {
+    width: 220px !important;
+    height: 250px !important;
+    min-width: 220px !important;
+    min-height: 250px !important;
+    max-width: 220px !important;
+    max-height: 250px !important;
+    display: block !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+}
